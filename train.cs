@@ -1,35 +1,55 @@
-using System;
-using System.Linq;
-using System.IO;
-using System.Text;
-using System.Collections;
-using System.Collections.Generic;
+#include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
 
 /**
  * Auto-generated code below aims at helping you parse
  * the standard input according to the problem statement.
  **/
-class Player
+int main()
 {
-    static void Main(string[] args)
-    {
-        int road = int.Parse(Console.ReadLine()); // the length of the road before the gap.
-        int gap = int.Parse(Console.ReadLine()); // the length of the gap.
-        int platform = int.Parse(Console.ReadLine()); // the length of the landing platform.
+    int N; // the number of points used to draw the surface of Mars.
+    scanf("%d", &N);
+    for (int i = 0; i < N; i++) {
+        int LAND_X; // X coordinate of a surface point. (0 to 6999)
+        int LAND_Y; // Y coordinate of a surface point. By linking all the points together in a sequential fashion, you form the surface of Mars.
+        scanf("%d%d", &LAND_X, &LAND_Y);
+    }
+    int push = 0;
 
-        // game loop
-        while (true)
+    // game loop
+    while (1) {
+        int X;
+        int Y;
+        int HS; // the horizontal speed (in m/s), can be negative.
+        int VS; // the vertical speed (in m/s), can be negative.
+        int F; // the quantity of remaining fuel in liters.
+        int R; // the rotation angle in degrees (-90 to 90).
+        int P; // the thrust power (0 to 4).
+        scanf("%d%d%d%d%d%d%d", &X, &Y, &HS, &VS, &F, &R, &P);
+
+        // Write an action using printf(). DON'T FORGET THE TRAILING \n
+        // To debug: fprintf(stderr, "Debug messages...\n");;
+        
+        if(VS < -40)
         {
-            int speed = int.Parse(Console.ReadLine()); // the motorbike's speed.
-            int coordX = int.Parse(Console.ReadLine()); // the position on the road of the motorbike.
-            string action = "SPEED";
-            // Write an action using Console.WriteLine()
-            // To debug: Console.Error.WriteLine("Debug messages...");
-            if ( speed > gap ) action = "WAIT";
-            if ( speed > gap + 1) action = "SLOW";
-            if ( coordX + speed > road ) action = "JUMP";
-            if ( coordX >= road + gap ) action = "SLOW";
-            Console.WriteLine(action); // A single line containing one of 4 keywords: SPEED, SLOW, JUMP, WAIT.
+            if(push < 4)
+            {
+                push++;  
+            }
         }
+        if(VS > -40)
+        {
+            if(push > 0)
+            {
+                push--;  
+            }
+        }
+
+        fprintf(stderr, "VS : %d", VS);
+        
+        printf("0 %d\n", push); 
+
+
     }
 }
