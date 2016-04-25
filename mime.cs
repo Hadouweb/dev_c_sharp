@@ -1,5 +1,8 @@
 using System;
 using System.Linq;
+using System.IO;
+using System.Text;
+using System.Collections;
 using System.Collections.Generic;
 
 class Solution
@@ -19,7 +22,6 @@ class Solution
         for (int i = 0; i < fileNB; i++)
         {
             string[] str = Console.ReadLine().Split('.');
-
             Console.WriteLine(mimeDico.ContainsKey(str.Last().ToUpper()) && str.Length != 1 ? mimeDico[str.Last().ToUpper()] : "UNKNOWN");
         }
     }
