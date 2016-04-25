@@ -2,152 +2,94 @@
 #include <stdio.h>
 #include <string.h>
 
-static int N;
-
-typedef struct  s_data
+void echanger(int tableau[], int a, int b)
 {
-    int         id;
-    char        *name;
-    float       lon;
-    float       lat;
-}               data;
-
-int     ft_strlen(char *str)
-{
-    int     i;
-    
-    i = 0;
-    while (str[i] && str[i] != ';')
-        i++;
-    return (i);
+    int temp = tableau[a];
+    tableau[a] = tableau[b];
+    tableau[b] = temp;
 }
 
-void    ft_strcpy(char *n, char *o)
+void quickSort(int tableau[], int debut, int fin)
 {
-    int     i;
-    
-    i = 0;
-    //printf("%s\n", o);
-    while (o[i] && o[i] != ';')
+    int gauche = debut-1;
+    int droite = fin+1;
+    const int pivot = tableau[debut];
+
+    /* Si le tableau est de longueur nulle, il n'y a rien à faire. */
+    if(debut >= fin)
+        return;
+
+    /* Sinon, on parcourt le tableau, une fois de droite à gauche, et une
+       autre de gauche à droite, à la recherche d'éléments mal placés,
+       que l'on permute. Si les deux parcours se croisent, on arrête. */
+    while(1)
     {
-        n[i] = o[i];
-        i++;
+        do droite--; while(tableau[droite] > pivot);
+        do gauche++; while(tableau[gauche] < pivot);
+
+        if(gauche < droite)
+            echanger(tableau, gauche, droite);
+        else break;
     }
-    n[i] = '\0';
+
+    /* Maintenant, tous les éléments inférieurs au pivot sont avant ceux
+       supérieurs au pivot. On a donc deux groupes de cases à trier. On utilise
+       pour cela... la méthode quickSort elle-même ! */
+    quickSort(tableau, debut, droite);
+    quickSort(tableau, droite+1, fin);
 }
 
-char    *float_format(char *str)
+int main()
 {
-    int     i;
+    int N;
+    scanf("%d", &N);
     
-    i = 0;
-    while (str[i])
-    {
-        if (str[i] == ',')
-            str[i] = '.';
-        i++;
-    }
-    return (str);
-}
-
-char    **split(char *str)
-{
-    char    **data;
-    int     i;
-    int     j;
+    int *tab;
+    tab = (int *)calloc(N, sizeof(int));
     
-    j = 0;
-    data = (char **)malloc(sizeof(data) * 6);
-    data[j] = (char *)malloc(ft_strlen(str));
-    ft_strcpy(data[j], str);
-    j++;
-    i = ft_strlen(str);
-    while (str[i])
-    {
-        if (str[i] == ';')
-        {
-            if (str[i + 1] == ';')
-            {
-                data[j] = (char *)malloc(5);
-                data[j] = "null";
-            }
-            else
-            {
-                data[j] = (char *)malloc(ft_strlen(&str[i + 1]) + 1);
-                ft_strcpy(data[j], &str[i + 1]);
-            }
-            j++;
-        }
-        i++;
-    }
-    return (data);
-}
-
-data    save_data(char *str)
-{
-    data    n;
-    int     i;
-    int     j;
-    char    **data;
-    
-    i = 0;
-    j = 0;
-    data = split(str);
-    n.id = atoi(data[0]);
-    n.name = data[1];
-    n.lon = atof(float_format(data[4]));
-    n.lat = atof(float_format(data[5]));
-    j++;
-    return (n);
-}
-
-char    *search(data *d, float lon, float lat)
-{
-    int     i;
-    float   dist;
-    float   tmp;
-    float   x;
-    float   y;
-    char    *name;
-    
-    i = 0;
-    dist = -1.0;
-    while (i < N)
-    {
-        x = (d[i].lon - lon) * cos((lat + d[i].lat)/2);
-        y = (d[i].lat - lat);
-        tmp = sqrt((x * x) + (y * y)) * 6371;
-        if (dist == -1.0)
-        {
-            dist = tmp;
-            name = d[i].name;
-        }
-        else if (tmp < dist)
-        {
-            dist = tmp;
-            name = d[i].name;
-        }
-        i++;
-    }
-    return (name);
-}
-
-int     main()
-{
-    char    LON[50];
-    char    LAT[50];  
-    char    DEFIB[256];
-    
-    scanf("%s", LON); fgetc(stdin);
-    scanf("%s", LAT); fgetc(stdin);
-    scanf("%d", &N); fgetc(stdin);
-    data d[N];
     for (int i = 0; i < N; i++) {
-        fgets(DEFIB,256,stdin);
-        d[i] = save_data(DEFIB);
+        scanf("%d", &tab[i]);
     }
-
-    printf("%s", search(d, atof(float_format(LON)), atof(float_format(LAT))));
     
-    return 0;
+    
+    /*for (int i = 0; i < N; i++) {
+        for (int x = i+1; x < N; x++) {
+            if(tab[i] > tab[x]) {
+                int tmp = tab[x];
+                tab[x] = tab[i];
+                tab[i] = tmp;
+            }
+        }
+    }*/
+    fprintf(stderr, "%d\n", N);
+    if(N > 10000) {
+        quickSort(tab, 0, 10000);
+    } else {
+        quickSort(tab, 0, N);
+    }
+    
+    for (int i = 0; i < N; i++) {
+        //fprintf(stderr, "%d ", tab[i]);
+    }
+    fprintf(stderr, "\n");
+    
+    int min = tab[1] - tab[0];
+    
+    for (int i = 0; i < N; i++) {
+        int tmp;
+        
+        if(tab[i+1] - tab[i] < 0) {
+            tmp = tab[i+1] - tab[i] * -1;
+        } else {
+            tmp = tab[i+1] - tab[i];
+        }
+        
+        if(tmp < min && i < N) {
+            min = tmp;
+            fprintf(stderr, "min : %d\n", min);
+        }
+    }
+        
+    printf("%d", min);
+
 }
