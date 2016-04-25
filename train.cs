@@ -1,23 +1,32 @@
 using System;
-// ReSharper disable AssignNullToNotNullAttribute
-// ReSharper disable PossibleNullReferenceException
+using System.Linq;
+using System.Text;
+using System.Collections.Generic;
+
 
 class Solution
 {
     static void Main()
     {
-        int L = int.Parse(Console.ReadLine());
-        int H = int.Parse(Console.ReadLine());
-        string T = Console.ReadLine().ToUpper();
-       
-        for (int i = 0; i < H; i++) {
-            string ROW = Console.ReadLine();
-            foreach (char letter in T)
-            {
-                int index = char.IsLetter(letter) ? letter - 'A' : 26;
-                Console.Write(ROW.Substring(index * L,L));
-            }
-            Console.WriteLine();
+
+        
+        StringBuilder   BinaryMessage = new StringBuilder(),    
+                        ChuckNorrisMessage = new StringBuilder();
+                        
+        String Sentence = Console.ReadLine();
+
+        char LastBit = default(char);
+
+        foreach (char c in Sentence)
+        {
+            BinaryMessage.Append(Convert.ToString(c, 2).PadLeft(7, '0'));
         }
+
+        foreach(char bit in BinaryMessage.ToString())
+        {
+            ChuckNorrisMessage.Append(bit != LastBit ? (bit=='1'?" 0 0":" 00 0") : "0");
+            LastBit = bit;
+        }
+        Console.WriteLine(ChuckNorrisMessage.ToString().Trim());
     }
 }
