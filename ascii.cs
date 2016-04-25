@@ -1,6 +1,9 @@
 using System;
-// ReSharper disable AssignNullToNotNullAttribute
-// ReSharper disable PossibleNullReferenceException
+using System.Linq;
+using System.IO;
+using System.Text;
+using System.Collections;
+using System.Collections.Generic;
 
 class Solution
 {
@@ -12,10 +15,10 @@ class Solution
        
         for (int i = 0; i < H; i++) {
             string ROW = Console.ReadLine();
-            foreach (char letter in T)
+            foreach (char c in T)
             {
-                int index = char.IsLetter(letter) ? letter - 'A' : 26;
-                Console.Write(ROW.Substring(index * L,L));
+                int index = char.IsLetter(c) ? c - 'A' : 26;
+                Console.Write(ROW.Substring(index * L, L));
             }
             Console.WriteLine();
         }
