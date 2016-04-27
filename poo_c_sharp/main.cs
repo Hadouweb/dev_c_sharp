@@ -7,6 +7,7 @@ class Program
 	static void Main(string[] args)
 	{
 		Jeu1();
+		Jeu2();
 	}
 
 	private static void Jeu1()
@@ -38,6 +39,22 @@ class Program
 			}
 		}
 		Console.WriteLine("Bravo !!! Vous avez tué {0} monstres faciles et {1} monstres difficiles. Vous avez {2} points.", cptFacile, cptDifficile, cptFacile + cptDifficile * 2);
+	}
+
+	private static void Jeu2()
+	{
+		Joueur nicolas = new Joueur(150);
+		Boss boss = new Boss(250);
+		while (nicolas.EstVivant && boss.EstVivant)
+		{
+			nicolas.Attaque(boss);
+			if (boss.EstVivant)
+				boss.Attaque(nicolas);
+		}
+		if (nicolas.EstVivant)
+			Console.WriteLine("Bravo, vous avez sauvé la princesse (ou le prince !)");
+		else
+			Console.WriteLine("Game over...");
 	}
 
 	private static MonstreFacile FabriqueDeMonstre()

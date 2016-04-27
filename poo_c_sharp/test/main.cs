@@ -7,6 +7,14 @@ class Program
 		Guerrier war = new Guerrier("Thrall");
 		Personnage hero = (Personnage)war;
 		hero.Attaque();
+		int nbr = 10;
+		test(nbr);
+		Console.WriteLine(nbr);
+	}
+
+	public static void test(int nbr)
+	{
+		nbr *= 2;
 	}
 }
 

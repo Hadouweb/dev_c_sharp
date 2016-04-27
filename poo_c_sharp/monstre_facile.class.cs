@@ -2,12 +2,10 @@
 public class MonstreFacile
 {
 	private const int degats = 10;
-	protected De de;
 	public bool EstVivant { get; private set; }
 
 	public MonstreFacile()
 	{
-		de = new De();
 		EstVivant = true;
 	}
 
@@ -26,6 +24,6 @@ public class MonstreFacile
 
 	public int LanceLeDe()
 	{
-		return de.LanceLeDe();
+		return De.LanceLeDe();
 	}
 }

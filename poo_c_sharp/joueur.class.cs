@@ -1,7 +1,6 @@
 
 public class Joueur
 {
-	private De de;
 	public int Vie { get; private set; }
 	public bool EstVivant
 	{
@@ -14,7 +13,6 @@ public class Joueur
 	public Joueur(int vie)
 	{
 		this.Vie = vie;
-		de = new De();
 	}
 
 	public void Attaque(MonstreFacile monstre)
@@ -25,9 +23,20 @@ public class Joueur
 			monstre.SubitDegats();
 	}
 
+	public void Attaque(Boss boss)
+	{
+		int nb = LanceLeDe(26);
+		boss.SubitDegats(nb);
+	}
+
 	public int LanceLeDe()
 	{
-		return de.LanceLeDe();
+		return De.LanceLeDe();
+	}
+
+	public int LanceLeDe(int valeur)
+	{
+		return De.LanceLeDe(valeur);
 	}
 
 	public void SubitDegats(int degat)
@@ -38,12 +47,7 @@ public class Joueur
 
 	private bool bouclierFonctionne()
 	{
-		return de.LanceLeDe() <= 2;
-	}
-
-	public override string ToString()
-	{
-		return "Vie : " + this.Vie + " EstVivant : " + this.EstVivant;
+		return De.LanceLeDe() <= 2;
 	}
 
 }

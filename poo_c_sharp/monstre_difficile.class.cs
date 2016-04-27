@@ -11,7 +11,7 @@ public class MonstreDifficile : MonstreFacile
 
 	private int SortMagique()
 	{
-		int valeur = de.LanceLeDe();
+		int valeur = De.LanceLeDe();
 		if (valeur == 6)
 			return 0;
 		return degatsSort * valeur;

@@ -1,16 +1,16 @@
 using System;
 
-public class De
+public static class De
 {
-	private Random random;
+	private static Random random = new Random();
 
-	public De()
-	{
-		random = new Random();
-	}
-
-	public int LanceLeDe()
+	public static int LanceLeDe()
 	{
 		return random.Next(1, 7);
+	}
+
+	public static int LanceLeDe(int max)
+	{
+		return random.Next(1, max);
 	}
 }
